@@ -1,6 +1,6 @@
 # Kinde Starter Kit - NextJS with full App Router support
 
-This is a starter kit to get you started with Kinde on Next.js
+This is a starter kit to get you started with Kinde on Nextjs
 
 ## Dependancies
 
