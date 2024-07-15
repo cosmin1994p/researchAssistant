@@ -1,15 +1,12 @@
-import "./globals.css";
 import {
-  RegisterLink,
-  LoginLink,
   LogoutLink,
 } from "@kinde-oss/kinde-auth-nextjs/components";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
-import Link from "next/link";
+import Authenticate from "../components/authenticate";
 
 export const metadata = {
-  title: "Kinde Auth",
-  description: "Kinde with NextJS App Router",
+  title: "Research Assistant",
+  description: "Research Assistant, your research best buddy",
 };
 
 export default async function RootLayout({
@@ -27,12 +24,7 @@ export default async function RootLayout({
             <h1 className="text-display-3">Cause Finder</h1>
             <div>
               {!(await isAuthenticated()) ? (
-                <>
-                  <LoginLink className="btn btn-ghost sign-in-btn">
-                    Sign in
-                  </LoginLink>
-                  <RegisterLink className="btn btn-dark">Sign up</RegisterLink>
-                </>
+                <Authenticate />
               ) : (
                 <div className="profile-blob">
                   {user?.picture ? (
