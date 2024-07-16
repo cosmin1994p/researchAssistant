@@ -19,6 +19,7 @@ import { format } from 'date-fns';
 import { Delete as DeleteIcon, Edit as EditIcon } from '@mui/icons-material';
 import { ScientificPaper } from '../../../data/scientific-paper/types';
 import { mockedPapers } from '../../../data/scientific-paper/mockData';
+import Link from 'next/link';
 
 interface ProjectParams {
 	params: {
@@ -47,7 +48,9 @@ export default function Project({ params }: ProjectParams): React.ReactNode {
 		<NavigationAndUserInfo>
 			<Stack spacing={2} alignItems="end">
 				<Stack direction="row" spacing={2}>
-					<Button variant="contained">Add papers</Button>
+					<Link href={`/projects/${params.id}/upload-paper`}>
+						<Button variant="contained">Add papers</Button>
+					</Link>
 					<Button variant="contained">Automatically download papers</Button>
 				</Stack>
 
