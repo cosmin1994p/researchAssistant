@@ -5,6 +5,9 @@ scripts
 assets
 public
 *.html
+*.css
+*.scss
 package.json
 package-lock.json
 *.mjs
+*.md

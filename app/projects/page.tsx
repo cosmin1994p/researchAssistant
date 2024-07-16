@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import React, { ChangeEvent, useMemo, useState } from "react";
+import React, { ChangeEvent, useMemo, useState } from 'react';
 import {
 	Table,
 	TableBody,

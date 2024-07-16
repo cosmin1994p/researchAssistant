@@ -6,7 +6,7 @@ export function UserTopLevelInformation(): React.ReactNode {
 	const [anchorEl, setAnchorEl] = useState(null);
 	const open = Boolean(anchorEl);
 
-	const handleClick = (event:  React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
+	const handleClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
 		// @ts-ignore
 		setAnchorEl(event.currentTarget);
 	};

@@ -7,7 +7,9 @@ interface NavigationAndUserInfoProps {
 	children?: React.ReactNode;
 }
 
-export const NavigationAndUserInfo: React.FC<NavigationAndUserInfoProps> = ({ children }: NavigationAndUserInfoProps): React.ReactNode => {
+export const NavigationAndUserInfo: React.FC<NavigationAndUserInfoProps> = ({
+	children,
+}: NavigationAndUserInfoProps): React.ReactNode => {
 	return (
 		<>
 			<Box paddingLeft={26}>
@@ -21,4 +23,4 @@ export const NavigationAndUserInfo: React.FC<NavigationAndUserInfoProps> = ({ ch
 			</Box>
 		</>
 	);
-}
+};
