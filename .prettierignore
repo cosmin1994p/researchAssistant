@@ -1,0 +1,10 @@
+.vscode
+.idea
+.next
+scripts
+assets
+public
+*.html
+package.json
+package-lock.json
+*.mjs
