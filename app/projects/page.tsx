@@ -1,29 +1,17 @@
 'use client';
 
 import React, { ChangeEvent, useMemo, useState } from 'react';
-import {
-	Table,
-	TableBody,
-	TableCell,
-	TableContainer,
-	TableHead,
-	TableRow,
-	Paper,
-	IconButton,
-	Button,
-	Stack,
-	TextField,
-} from '@mui/material';
+import { Table, TableContainer, TableHead, Paper, Button, Stack, TextField } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
-import { Edit as EditIcon, Delete as DeleteIcon } from '@mui/icons-material';
-import { format } from 'date-fns';
 import { mockedProjects } from '../../data/project/mockData';
 import { EditOrCreateProjectModal } from '../../components/edit-or-create-project-modal';
 import { Project } from '../../data/project/types';
 import { NavigationAndUserInfo } from '../../components/navigation-and-user-info';
 import { TableHeadRow } from '../../components/data-table/table-head-row';
+import { TableBodyRows } from '../../components/data-table/table-body-rows';
 
 const tableColumns: string[] = ['Project Title', 'Created Date', 'Processed Papers', 'Number of Queries', 'Options'];
+const dataKeysOrder: string[] = ['title', 'createdAt', 'papersProcessed', 'queries'];
 
 export default function Projects() {
 	const [projects, setProjects] = useState<Project[]>(mockedProjects);
@@ -103,28 +91,13 @@ export default function Projects() {
 							<TableHead sx={{ '& .MuiTableCell-head': { fontWeight: 'bold' } }}>
 								<TableHeadRow columns={tableColumns} />
 							</TableHead>
-							<TableBody>
-								{filteredProjects.map((project) => (
-									<TableRow hover key={project.id}>
-										<TableCell component="th" scope="row">
-											{project.title}
-										</TableCell>
-										<TableCell align="center">
-											{format(new Date(project.createdAt), 'dd/MM/yyyy')}
-										</TableCell>
-										<TableCell align="center">{project.papersProcessed}</TableCell>
-										<TableCell align="center">{project.queries}</TableCell>
-										<TableCell align="center">
-											<IconButton aria-label="edit" onClick={() => handleEditClick(project)}>
-												<EditIcon />
-											</IconButton>
-											<IconButton aria-label="delete" onClick={() => handleDelete(project.id)}>
-												<DeleteIcon />
-											</IconButton>
-										</TableCell>
-									</TableRow>
-								))}
-							</TableBody>
+							<TableBodyRows
+								data={filteredProjects}
+								keysOrder={dataKeysOrder}
+								onDelete={handleDelete}
+								// @ts-ignore fuck off TS!!
+								onEdit={handleEditClick}
+							/>
 						</Table>
 					</TableContainer>
 				</Paper>

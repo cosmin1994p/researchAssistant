@@ -2,25 +2,12 @@
 
 import React, { ChangeEvent, useMemo, useState } from 'react';
 import { NavigationAndUserInfo } from '../../../components/navigation-and-user-info';
-import {
-	Button,
-	IconButton,
-	Paper,
-	Stack,
-	Table,
-	TableBody,
-	TableCell,
-	TableContainer,
-	TableHead,
-	TableRow,
-	TextField,
-} from '@mui/material';
-import { format } from 'date-fns';
-import { Delete as DeleteIcon, Edit as EditIcon } from '@mui/icons-material';
+import { Button, Paper, Stack, Table, TableContainer, TableHead, TextField } from '@mui/material';
 import { ScientificPaper } from '../../../data/scientific-paper/types';
 import { mockedPapers } from '../../../data/scientific-paper/mockData';
 import Link from 'next/link';
 import { TableHeadRow } from '../../../components/data-table/table-head-row';
+import { TableBodyRows } from '../../../components/data-table/table-body-rows';
 
 interface ProjectParams {
 	params: {
@@ -29,6 +16,7 @@ interface ProjectParams {
 }
 
 const tableColumns: string[] = ['Paper Title', 'Author', 'Published Year', 'Journal Title', 'Status', 'Options'];
+const dataKeysOrder: string[] = ['title', 'author', 'publishedYear', 'journalTitle', 'status'];
 
 export default function Project({ params }: ProjectParams): React.ReactNode {
 	const [papers, setPapers] = useState<ScientificPaper[]>(mockedPapers);
@@ -71,31 +59,8 @@ export default function Project({ params }: ProjectParams): React.ReactNode {
 							<TableHead sx={{ '& .MuiTableCell-head': { fontWeight: 'bold' } }}>
 								<TableHeadRow columns={tableColumns} />
 							</TableHead>
-							<TableBody>
-								{filteredPapers.map((paper: ScientificPaper) => (
-									<TableRow hover key={paper.id}>
-										<TableCell component="th" scope="row">
-											{paper.title}
-										</TableCell>
-										<TableCell component="th" scope="row">
-											{paper.author}
-										</TableCell>
-										<TableCell align="center">
-											{format(new Date(paper.publishedYear), 'dd/MM/yyyy')}
-										</TableCell>
-										<TableCell align="center">{paper.journalTitle}</TableCell>
-										<TableCell align="center">{paper.status}</TableCell>
-										<TableCell align="center">
-											<IconButton aria-label="edit">
-												<EditIcon />
-											</IconButton>
-											<IconButton aria-label="delete" onClick={() => handleDelete(paper.id)}>
-												<DeleteIcon />
-											</IconButton>
-										</TableCell>
-									</TableRow>
-								))}
-							</TableBody>
+
+							<TableBodyRows data={filteredPapers} onDelete={handleDelete} keysOrder={dataKeysOrder} />
 						</Table>
 					</TableContainer>
 				</Paper>

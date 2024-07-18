@@ -1,5 +1,6 @@
-export interface ScientificPaper {
-	id: number;
+import { DataType } from '../for-data-table/types';
+
+export interface ScientificPaper extends DataType {
 	title: string;
 	author: string;
 	publishedYear: Date;
