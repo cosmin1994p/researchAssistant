@@ -4,7 +4,6 @@ import React, { ChangeEvent, useMemo, useState } from 'react';
 import { User } from '../../data/user/types';
 import { mockedUsers } from '../../data/user/mockData';
 import {
-	Button,
 	IconButton,
 	Paper,
 	Stack,
@@ -20,6 +19,9 @@ import {
 import { format } from 'date-fns';
 import { Delete as DeleteIcon, Edit as EditIcon } from '@mui/icons-material';
 import { NavigationAndUserInfo } from '../../components/navigation-and-user-info';
+import { TableHeadRow } from '../../components/data-table/table-head-row';
+
+const tableColumns = ['Name', 'Created At', 'Processed Papers', 'Actions'];
 
 export default function Dashboard() {
 	const [users, setUsers] = useState<User[]>(mockedUsers);
@@ -53,12 +55,7 @@ export default function Dashboard() {
 					<TableContainer component={Paper}>
 						<Table sx={{ minWidth: 650 }} aria-label="projects table">
 							<TableHead sx={{ '& .MuiTableCell-head': { fontWeight: 'bold' } }}>
-								<TableRow>
-									<TableCell align="center">Name</TableCell>
-									<TableCell align="center">Created At</TableCell>
-									<TableCell align="center">Processed papers</TableCell>
-									<TableCell align="center">Actions</TableCell>
-								</TableRow>
+								<TableHeadRow columns={tableColumns} />
 							</TableHead>
 							<TableBody>
 								{filteredUsers.map((user: User) => (

@@ -21,6 +21,9 @@ import { mockedProjects } from '../../data/project/mockData';
 import { EditOrCreateProjectModal } from '../../components/edit-or-create-project-modal';
 import { Project } from '../../data/project/types';
 import { NavigationAndUserInfo } from '../../components/navigation-and-user-info';
+import { TableHeadRow } from '../../components/data-table/table-head-row';
+
+const tableColumns: string[] = ['Project Title', 'Created Date', 'Processed Papers', 'Number of Queries', 'Options'];
 
 export default function Projects() {
 	const [projects, setProjects] = useState<Project[]>(mockedProjects);
@@ -98,13 +101,7 @@ export default function Projects() {
 					<TableContainer component={Paper}>
 						<Table sx={{ minWidth: 650 }} aria-label="projects table">
 							<TableHead sx={{ '& .MuiTableCell-head': { fontWeight: 'bold' } }}>
-								<TableRow>
-									<TableCell>Project Title</TableCell>
-									<TableCell align="center">Created Date</TableCell>
-									<TableCell align="center">Processed Papers</TableCell>
-									<TableCell align="center">Number of Queries</TableCell>
-									<TableCell align="center">Options</TableCell>
-								</TableRow>
+								<TableHeadRow columns={tableColumns} />
 							</TableHead>
 							<TableBody>
 								{filteredProjects.map((project) => (
