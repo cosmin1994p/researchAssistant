@@ -48,7 +48,7 @@ export default function UploadPaper({ params }): React.ReactNode {
 						alignItems: 'center',
 					}}
 				>
-					<Typography>Drag 'n' drop some files here, or click to select files</Typography>
+					<Typography>Drag and drop some files here, or click to select files</Typography>
 					<input
 						type="file"
 						multiple
