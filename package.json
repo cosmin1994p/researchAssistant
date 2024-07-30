@@ -30,7 +30,8 @@
     "next": "^14.1.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "typescript": "5.3.3"
+    "typescript": "5.3.3",
+    "use-debounce": "^10.0.2"
   },
   "devDependencies": {
     "prettier": "^3.3.3",

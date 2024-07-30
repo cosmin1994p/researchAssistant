@@ -3,13 +3,14 @@
 import { DataType } from '../../data/for-data-table/types';
 import React, { ChangeEvent, useState } from 'react';
 import { Project } from '../../data/project/types';
-import { deleteProject } from '../../api-actions/project';
+import { deleteProject, getFilteredProjects } from '../../api-actions/project';
 import { Button, Paper, Stack, Table, TableContainer, TableHead, TextField } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { TableHeadRow } from '../data-table/table-head-row';
 import { TableBodyRows } from '../data-table/table-body-rows';
 import { EditOrCreateProjectModal } from '../edit-or-create-project-modal';
 import { NavigationAndUserInfo } from '../navigation-and-user-info';
+import { useDebouncedCallback } from 'use-debounce';
 
 interface ProjectsPageClientComponentProps {
 	data: DataType[];
@@ -28,6 +29,16 @@ export function ProjectsPageClientComponent({ data, columns, dataKeysOrder }: Pr
 		setOpen(true);
 	};
 
+	const debounceFiltering = useDebouncedCallback(async (): Promise<void> => {
+		if (!searchInput) {
+			window.location.reload();
+			return;
+		}
+
+		const filtered = await getFilteredProjects(searchInput);
+		setProjects(filtered);
+	}, 300);
+
 	const handleOnCreateClick = (): void => {
 		setCurrentProject(undefined);
 		setOpen(true);
@@ -35,6 +46,7 @@ export function ProjectsPageClientComponent({ data, columns, dataKeysOrder }: Pr
 
 	const handleSearchChange = (event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
 		setSearchInput(event.target.value);
+		debounceFiltering();
 	};
 
 	const handleClose = (): void => {
