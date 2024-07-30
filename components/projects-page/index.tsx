@@ -4,7 +4,7 @@ import { DataType } from '../../data/for-data-table/types';
 import React, { ChangeEvent, useState } from 'react';
 import { Project } from '../../data/project/types';
 import { deleteProject, getFilteredProjects } from '../../api-actions/project';
-import { Button, Paper, Stack, Table, TableContainer, TableHead, TextField } from '@mui/material';
+import { Button, Paper, Stack, Table, TableContainer, TableHead, TextField, Typography } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { TableHeadRow } from '../data-table/table-head-row';
 import { TableBodyRows } from '../data-table/table-body-rows';
@@ -61,6 +61,8 @@ export function ProjectsPageClientComponent({ data, columns, dataKeysOrder }: Pr
 
 	return (
 		<NavigationAndUserInfo>
+			<Typography variant="h5">Projects</Typography>
+
 			<Stack spacing={2} alignItems="end">
 				<Button variant="contained" endIcon={<AddIcon />} onClick={handleOnCreateClick}>
 					Create new project
@@ -82,6 +84,8 @@ export function ProjectsPageClientComponent({ data, columns, dataKeysOrder }: Pr
 							<TableBodyRows
 								data={projects}
 								keysOrder={dataKeysOrder}
+								shouldHaveLink
+								linkHref="projects"
 								// @ts-ignore fuck off TS!!
 								onEdit={handleEditClick}
 								onDelete={handleDelete}
