@@ -3,37 +3,29 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Box, Typography, TextField, Button, Stack, Card, CardContent, CardActions } from '@mui/material';
 import { Project } from '../data/project/types';
+import { createProject, updateProject } from '../api-actions/project';
 
 interface EditOrCreateProjectModalProps {
 	open: boolean;
 	onClose: () => void;
 	project?: Project;
-	onSave: (project: Project) => void;
 }
 
-export const EditOrCreateProjectModal = ({ open, onClose, project, onSave }: EditOrCreateProjectModalProps) => {
+export const EditOrCreateProjectModal = ({ open, onClose, project }: EditOrCreateProjectModalProps) => {
 	const [projectName, setProjectName] = useState('');
 
 	useEffect(() => {
 		setProjectName(project ? project.title : '');
 	}, [project, open]);
 
-	const handleSave = () => {
+	const handleSave = async (): Promise<void> => {
 		if (project) {
-			onSave({
-				...project,
-				title: projectName,
-			});
+			await updateProject(projectName, project.id);
 		} else {
-			onSave({
-				id: new Date().getMilliseconds(),
-				title: projectName,
-				papersProcessed: 0,
-				queries: 0,
-				createdAt: new Date(),
-			});
+			await createProject(projectName);
 		}
 
+		window.location.reload();
 		onClose();
 	};
 
