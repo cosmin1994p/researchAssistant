@@ -60,10 +60,12 @@ http://localhost:3000
 ```
 npm run dev
 ```
+```
 !!!
 npm run dev will start your development server on HTTP.
 npm run build will build your Next.js app for production.
 !!!
+```
 open `http://localhost:3000` in your browser
 
 ## Create your first user
