@@ -33,6 +33,8 @@ export enum HttpMethod {
 	Delete = 'DELETE',
 }
 
+export const headers = { 'Content-Type': 'application/json' };
+
 export const retryableStatusCodes: HttpStatusCode[] = [
 	HttpStatusCode.RequestTimeout,
 	HttpStatusCode.TooManyRequests,

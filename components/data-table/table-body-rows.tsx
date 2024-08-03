@@ -4,9 +4,14 @@ import { Edit as EditIcon, Delete as DeleteIcon } from '@mui/icons-material';
 import { format } from 'date-fns';
 import { DataType } from '../../data/for-data-table/types';
 
+import './table-body-rows.css';
+import Link from 'next/link';
+
 interface TableBodyRowsProps {
 	data: DataType[];
 	keysOrder: string[];
+	shouldHaveLink?: boolean;
+	linkHref?: string;
 	onEdit?: (item: DataType) => void;
 	onDelete?: (id: number) => void;
 }
@@ -20,17 +25,29 @@ function stringifyDataItemValue(value: unknown): string {
 	return String(value);
 }
 
-export function TableBodyRows({ data, keysOrder, onEdit, onDelete }: TableBodyRowsProps): React.ReactNode {
+export function TableBodyRows({
+	data,
+	keysOrder,
+	onEdit,
+	onDelete,
+	shouldHaveLink = false,
+	linkHref = '',
+}: TableBodyRowsProps): React.ReactNode {
 	return (
 		<TableBody>
 			{data.map(
 				(item: DataType): React.ReactNode => (
-					<TableRow key={item.id}>
+					<TableRow key={item.id} className="tableRow">
 						{keysOrder.map(
 							(key: string): React.ReactNode =>
 								key !== 'id' && (
 									<TableCell key={key} align="center">
-										{stringifyDataItemValue(item[key])}
+										{shouldHaveLink && (
+											<Link href={`/${linkHref}/${item.id}`}>
+												{stringifyDataItemValue(item[key])}
+											</Link>
+										)}
+										{!shouldHaveLink && stringifyDataItemValue(item[key])}
 									</TableCell>
 								),
 						)}

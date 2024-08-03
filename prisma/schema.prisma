@@ -1,0 +1,44 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int             @id @default(autoincrement())
+  userName  String
+  lastName  String
+  email     String          @unique
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @updatedAt
+  projects  Project[]       // One-to-many relation to Project
+}
+
+model Project {
+  id              Int                @id @default(autoincrement())
+  title           String
+  userId          Int                // Foreign key reference to User
+  user            User               @relation(fields: [userId], references: [id])
+  scientificPapers ScientificPaper[] // One-to-many relation to ScientificPaper
+  papersProcessed Int
+  queries         Int
+  createdAt       DateTime           @default(now())
+  updatedAt       DateTime           @updatedAt
+}
+
+model ScientificPaper {
+  id            Int       @id @default(autoincrement())
+  title         String
+  author        String
+  publishedYear DateTime
+  journalTitle  String
+  status        String
+  projectId     Int       // Foreign key reference to Project
+  project       Project   @relation(fields: [projectId], references: [id])
+}
