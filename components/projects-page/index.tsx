@@ -9,7 +9,6 @@ import AddIcon from '@mui/icons-material/Add';
 import { TableHeadRow } from '../data-table/table-head-row';
 import { TableBodyRows } from '../data-table/table-body-rows';
 import { EditOrCreateProjectModal } from '../edit-or-create-project-modal';
-import { NavigationAndUserInfo } from '../navigation-and-user-info';
 import { useDebouncedCallback } from 'use-debounce';
 
 interface ProjectsPageClientComponentProps {
@@ -60,7 +59,7 @@ export function ProjectsPageClientComponent({ data, columns, dataKeysOrder }: Pr
 	};
 
 	return (
-		<NavigationAndUserInfo>
+		<>
 			<Typography variant="h5">Projects</Typography>
 
 			<Stack spacing={2} alignItems="end">
@@ -96,6 +95,6 @@ export function ProjectsPageClientComponent({ data, columns, dataKeysOrder }: Pr
 
 				<EditOrCreateProjectModal open={open} project={currentProject} onClose={handleClose} />
 			</Stack>
-		</NavigationAndUserInfo>
+		</>
 	);
 }

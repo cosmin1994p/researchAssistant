@@ -5,7 +5,6 @@ import React, { ChangeEvent, useState } from 'react';
 import { ScientificPaper } from '../../data/scientific-paper/types';
 import { Box, Button, Paper, Stack, Table, TableContainer, TableHead, TextField, Typography } from '@mui/material';
 import Link from 'next/link';
-import { NavigationAndUserInfo } from '../navigation-and-user-info';
 import { TableHeadRow } from '../data-table/table-head-row';
 import { TableBodyRows } from '../data-table/table-body-rows';
 import { useDebouncedCallback } from 'use-debounce';
@@ -44,7 +43,7 @@ export function ProjectPageClientComponent({
 	const handleDelete = (id: number): void => {};
 
 	return (
-		<NavigationAndUserInfo>
+		<>
 			<Box paddingBottom={2}>
 				<Stack direction="column" spacing={2}>
 					<Typography variant="h5">{currentProjectTitle}</Typography>
@@ -80,6 +79,6 @@ export function ProjectPageClientComponent({
 					</TableContainer>
 				</Paper>
 			</Stack>
-		</NavigationAndUserInfo>
+		</>
 	);
 }

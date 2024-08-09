@@ -18,7 +18,6 @@ import {
 } from '@mui/material';
 import { format } from 'date-fns';
 import { Delete as DeleteIcon, Edit as EditIcon } from '@mui/icons-material';
-import { NavigationAndUserInfo } from '../../components/navigation-and-user-info';
 import { TableHeadRow } from '../../components/data-table/table-head-row';
 
 const tableColumns = ['Name', 'Created At', 'Processed Papers', 'Actions'];
@@ -41,7 +40,7 @@ export default function Dashboard() {
 	}, [searchInput, users]);
 
 	return (
-		<NavigationAndUserInfo>
+		<>
 			<Stack spacing={2} alignItems="end">
 				<Paper sx={{ width: '100%', overflow: 'hidden' }}>
 					<TextField
@@ -85,6 +84,6 @@ export default function Dashboard() {
 					</TableContainer>
 				</Paper>
 			</Stack>
-		</NavigationAndUserInfo>
+		</>
 	);
 }

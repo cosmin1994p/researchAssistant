@@ -1,6 +1,7 @@
-import { LogoutLink } from '@kinde-oss/kinde-auth-nextjs/components';
 import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server';
 import Authenticate from '../components/authenticate';
+import { NavigationAndUserInfo } from '../components/navigation-and-user-info';
+import React from 'react';
 
 export const metadata = {
 	title: 'Research Assistant',
@@ -9,44 +10,22 @@ export const metadata = {
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
 	const { isAuthenticated, getUser } = getKindeServerSession();
-	const user = await getUser();
+	const isLogged = await isAuthenticated();
+
 	return (
 		<html lang="en">
 			<body>
 				<header>
-					<nav className="nav container">
-						<h1 className="text-display-3">Cause Finder</h1>
-						<div>
-							{!(await isAuthenticated()) ? (
+					{!isLogged && (
+						<nav className="nav container">
+							<h1 className="text-display-3">Cause Finder</h1>
+							<div>
 								<Authenticate />
-							) : (
-								<div className="profile-blob">
-									{user?.picture ? (
-										<img
-											className="avatar"
-											src={user?.picture}
-											alt="user profile avatar"
-											referrerPolicy="no-referrer"
-										/>
-									) : (
-										<div className="avatar">
-											{user?.given_name?.[0]}
-											{user?.family_name?.[0]}
-										</div>
-									)}
-									<div>
-										<p className="text-heading-2">
-											{user?.given_name} {user?.family_name}
-										</p>
-
-										<LogoutLink className="text-subtle">Log out</LogoutLink>
-									</div>
-								</div>
-							)}
-						</div>
-					</nav>
+							</div>
+						</nav>
+					)}
 				</header>
-				<main>{children}</main>
+				<main>{isLogged ? <NavigationAndUserInfo>{children}</NavigationAndUserInfo> : <>{children}</>}</main>
 				<footer className="footer">
 					<div className="container">{/* footer */}</div>
 				</footer>

@@ -3,7 +3,6 @@
 import React, { useState } from 'react';
 import { Box, Button, Typography, List, ListItem, Stack } from '@mui/material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import { NavigationAndUserInfo } from '../../../../components/navigation-and-user-info';
 
 // @ts-ignore
 export default function UploadPaper({ params }): React.ReactNode {
@@ -27,7 +26,7 @@ export default function UploadPaper({ params }): React.ReactNode {
 	};
 
 	return (
-		<NavigationAndUserInfo>
+		<>
 			<Stack spacing={2}>
 				<Stack>
 					<Typography variant="h5">AI in healthcare</Typography>
@@ -71,6 +70,6 @@ export default function UploadPaper({ params }): React.ReactNode {
 					))}
 				</List>
 			</Stack>
-		</NavigationAndUserInfo>
+		</>
 	);
 }
