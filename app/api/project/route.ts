@@ -1,14 +1,15 @@
 import prisma from '../../../lib/db';
 import { NextResponse } from 'next/server';
-
-export async function GET() {
-	const data = { message: 'Hello world' };
-
-	return NextResponse.json({ data });
-}
+import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server';
 
 export async function POST(request: Request) {
 	const { title } = await request.json();
+
+	const { getUser } = getKindeServerSession();
+	const user = await getUser();
+	if (!user) {
+		return new Response('Forbidden', { status: 403 });
+	}
 
 	try {
 		await prisma.project.create({
@@ -16,7 +17,11 @@ export async function POST(request: Request) {
 				title: title,
 				papersProcessed: 0,
 				queries: 0,
-				userId: 1, // TODO: get current user id
+				user: {
+					connect: {
+						email: user.email!,
+					},
+				},
 			},
 		});
 

@@ -10,12 +10,19 @@ const dataKeysOrder: string[] = ['title', 'createdAt', 'papersProcessed', 'queri
 export default async function Projects() {
 	const { isAuthenticated, getUser } = getKindeServerSession();
 	const isLogged = await isAuthenticated();
+	const kindeUser = await getUser();
 
-	if (!isLogged) {
+	if (!isLogged || !kindeUser) {
 		redirect('/');
 	}
 
-	const projects = await prisma.project.findMany();
+	const projects = await prisma.project.findMany({
+		where: {
+			user: {
+				email: kindeUser.email!,
+			},
+		},
+	});
 
 	return <ProjectsPageClientComponent data={projects} columns={tableColumns} dataKeysOrder={dataKeysOrder} />;
 }
