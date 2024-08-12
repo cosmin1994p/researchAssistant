@@ -58,9 +58,7 @@ export function ProjectPageClientComponent({
 
 			<Stack spacing={2} alignItems="end">
 				<Stack direction="row" spacing={2}>
-					{getButtons(currentProjectId, [])[tabSearchValue].map((btn, index) => (
-						<>{btn}</>
-					))}
+					{getButtons(currentProjectId, [])[tabSearchValue]?.map((btn) => <>{btn}</>)}
 				</Stack>
 
 				<Paper sx={{ width: '100%', overflow: 'hidden' }}>

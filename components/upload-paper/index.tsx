@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { Box, Button, List, ListItem, Stack, Typography } from '@mui/material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { uploadFileLocally } from '../../api-actions/upload-file';
+import { uploadPaperFile } from '../../api-actions/paper';
 
 interface UploadPaperClientComponentProps {
 	projectId: number;
@@ -21,6 +22,7 @@ export function UploadPaperClientComponent({
 		for (const file of files) {
 			if (file.name.endsWith('.pdf')) {
 				await uploadFileLocally(file);
+				await uploadPaperFile(file.name, projectId);
 			}
 		}
 	};
