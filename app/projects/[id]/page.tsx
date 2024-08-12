@@ -1,6 +1,7 @@
 import prisma from '../../../lib/db';
 import { redirect } from 'next/navigation';
 import { ProjectPageClientComponent } from '../../../components/project-page';
+import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server';
 
 interface ProjectParams {
 	params: {
@@ -32,9 +33,15 @@ const getDataBasedOnFilter = async (filter: string, projectId: number) => {
 };
 
 export default async function Project({ params, searchParams }: ProjectParams) {
+	const { isAuthenticated, getUser } = getKindeServerSession();
+	const isLogged = await isAuthenticated();
+
+	if (!isLogged) {
+		redirect('/');
+	}
+
 	const projectId = Number(params.id); //TODO: add parameter validation
 	const { filter } = searchParams;
-	console.log(filter);
 
 	const currentProject = await prisma.project.findUnique({
 		where: {
@@ -43,8 +50,6 @@ export default async function Project({ params, searchParams }: ProjectParams) {
 	});
 
 	const projectPapers = await getDataBasedOnFilter(filter, projectId);
-
-	console.log(projectPapers);
 
 	if (!currentProject) {
 		console.error(`Could not find project with id: ${projectId}. Malformed entry maybe.`);
