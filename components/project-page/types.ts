@@ -3,29 +3,38 @@ export type TabDisplay = {
 	value: string;
 };
 
+export enum TabQueryValue {
+	Uploaded = 'uploaded',
+	Processed = 'processed',
+	Indexed = 'indexed',
+	Summarized = 'summarized',
+	IndexedAndSummarized = 'indexed-and-summarized',
+	All = 'all',
+}
+
 export const tabs: TabDisplay[] = [
 	{
 		label: 'Uploaded',
-		value: 'uploaded',
+		value: TabQueryValue.Uploaded,
 	},
 	{
 		label: 'Processed',
-		value: 'processed',
+		value: TabQueryValue.Processed,
 	},
 	{
 		label: 'Indexed',
-		value: 'indexed',
+		value: TabQueryValue.Indexed,
 	},
 	{
 		label: 'Summarized',
-		value: 'summarized',
+		value: TabQueryValue.Summarized,
 	},
 	{
 		label: 'Indexed & Summarized',
-		value: 'indexed-and-summarized',
+		value: TabQueryValue.IndexedAndSummarized,
 	},
 	{
 		label: 'All',
-		value: 'all',
+		value: TabQueryValue.All,
 	},
 ];

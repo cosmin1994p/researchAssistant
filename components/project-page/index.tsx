@@ -3,12 +3,14 @@
 import { DataType } from '../../data/for-data-table/types';
 import React, { ChangeEvent, useState } from 'react';
 import { ScientificPaper } from '../../data/scientific-paper/types';
-import { Box, Button, Paper, Stack, Table, TableContainer, TableHead, TextField, Typography } from '@mui/material';
-import Link from 'next/link';
+import { Box, Paper, Stack, Table, TableContainer, TableHead, TextField, Typography } from '@mui/material';
 import { TableHeadRow } from '../data-table/table-head-row';
 import { TableBodyRows } from '../data-table/table-body-rows';
 import { useDebouncedCallback } from 'use-debounce';
 import { ProjectTabs } from './project-tabs';
+import { TabQueryValue } from './types';
+import { useSearchParams } from 'next/navigation';
+import { getButtons } from './buttons';
 
 interface ProjectPageClientComponentProps {
 	data: DataType[];
@@ -27,6 +29,9 @@ export function ProjectPageClientComponent({
 }: ProjectPageClientComponentProps) {
 	const [papers, setPapers] = useState<ScientificPaper[]>(data as ScientificPaper[]);
 	const [searchInput, setSearchInput] = useState('');
+
+	const searchParams = useSearchParams();
+	const tabSearchValue = searchParams.get('filter') as TabQueryValue;
 
 	const debounceFiltering = useDebouncedCallback(async (): Promise<void> => {
 		if (!searchInput) {
@@ -53,16 +58,15 @@ export function ProjectPageClientComponent({
 
 			<Stack spacing={2} alignItems="end">
 				<Stack direction="row" spacing={2}>
-					<Link href={`/projects/${currentProjectId}/upload-paper`}>
-						<Button variant="contained">Add papers</Button>
-					</Link>
-					<Button variant="contained">Automatically download papers</Button>
+					{getButtons(currentProjectId, [])[tabSearchValue].map((btn, index) => (
+						<>{btn}</>
+					))}
 				</Stack>
 
 				<Paper sx={{ width: '100%', overflow: 'hidden' }}>
 					<TextField
 						fullWidth
-						label="Search by Project Title"
+						label="Search by Paper Title"
 						variant="outlined"
 						value={searchInput}
 						onChange={handleSearchChange}
