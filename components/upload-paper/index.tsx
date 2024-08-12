@@ -5,10 +5,14 @@ import { Box, Button, List, ListItem, Stack, Typography } from '@mui/material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
 interface UploadPaperClientComponentProps {
-	currentProjectId: number;
+	projectId: number;
+	projectTitle: string;
 }
 
-export function UploadPaperClientComponent({ currentProjectId }: UploadPaperClientComponentProps): React.ReactNode {
+export function UploadPaperClientComponent({
+	projectId,
+	projectTitle,
+}: UploadPaperClientComponentProps): React.ReactNode {
 	const [files, setFiles] = useState<File[]>([]);
 
 	const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
@@ -32,7 +36,7 @@ export function UploadPaperClientComponent({ currentProjectId }: UploadPaperClie
 		<>
 			<Stack spacing={2}>
 				<Stack>
-					<Typography variant="h5">AI in healthcare</Typography>
+					<Typography variant="h5">{projectTitle}</Typography>
 					<Typography variant="subtitle1">Upload your papers</Typography>
 				</Stack>
 
