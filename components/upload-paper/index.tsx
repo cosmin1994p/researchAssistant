@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { Box, Button, List, ListItem, Stack, Typography } from '@mui/material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import { uploadFileLocally } from '../../api-actions/upload-file';
 
 interface UploadPaperClientComponentProps {
 	projectId: number;
@@ -15,6 +16,15 @@ export function UploadPaperClientComponent({
 }: UploadPaperClientComponentProps): React.ReactNode {
 	const [files, setFiles] = useState<File[]>([]);
 
+	// TODO: Guard this, as to not upload more than X amount of files at a time
+	const handleFiles = async (files: File[]): Promise<void> => {
+		for (const file of files) {
+			if (file.name.endsWith('.pdf')) {
+				await uploadFileLocally(file);
+			}
+		}
+	};
+
 	const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
 		event.preventDefault();
 	};
@@ -23,12 +33,15 @@ export function UploadPaperClientComponent({
 		event.preventDefault();
 		const newFiles = Array.from(event.dataTransfer.files);
 		setFiles((prevFiles) => [...prevFiles, ...newFiles]);
+
+		handleFiles(newFiles);
 	};
 
 	const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
 		if (event.target.files) {
 			const fileArray = Array.from(event.target.files);
 			setFiles((prevFiles) => [...prevFiles, ...fileArray]);
+			handleFiles(fileArray);
 		}
 	};
 
