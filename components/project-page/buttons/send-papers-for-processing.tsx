@@ -5,5 +5,13 @@ interface SendPapersForUploadingProps {
 }
 
 export function SendPapersForUploading({ selectedPapers }: SendPapersForUploadingProps) {
-	return <Button variant="contained">Process</Button>;
+	const handleSendToProcessClick = async (): Promise<void> => {
+		console.log(selectedPapers);
+	};
+
+	return (
+		<Button variant="contained" onClick={handleSendToProcessClick}>
+			Process
+		</Button>
+	);
 }

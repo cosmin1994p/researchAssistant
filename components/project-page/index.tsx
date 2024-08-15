@@ -1,7 +1,7 @@
 'use client';
 
 import { DataType } from '../../data/for-data-table/types';
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import { ScientificPaper } from '../../data/scientific-paper/types';
 import { Box, Paper, Stack, Table, TableContainer, TableHead, TextField, Typography } from '@mui/material';
 import { TableHeadRow } from '../data-table/table-head-row';
@@ -11,6 +11,8 @@ import { ProjectTabs } from './project-tabs';
 import { TabQueryValue } from './types';
 import { useSearchParams } from 'next/navigation';
 import { getButtons } from './buttons';
+import DataGridDemo from './data-grid';
+import { GridRowSelectionModel } from '@mui/x-data-grid';
 
 interface ProjectPageClientComponentProps {
 	data: DataType[];
@@ -22,13 +24,11 @@ interface ProjectPageClientComponentProps {
 
 export function ProjectPageClientComponent({
 	data,
-	columns,
-	dataKeysOrder,
 	currentProjectId,
 	currentProjectTitle,
 }: ProjectPageClientComponentProps) {
-	const [papers, setPapers] = useState<ScientificPaper[]>(data as ScientificPaper[]);
 	const [searchInput, setSearchInput] = useState('');
+	const [selectedPapers, setSelectedPapers] = useState<ScientificPaper[]>([]);
 
 	const searchParams = useSearchParams();
 	const tabSearchValue = searchParams.get('filter') as TabQueryValue;
@@ -38,11 +38,18 @@ export function ProjectPageClientComponent({
 			window.location.reload();
 			return;
 		}
+
+		// TODO: search by paper tile
 	}, 300);
 
 	const handleSearchChange = (event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
 		setSearchInput(event.target.value);
 		debounceFiltering();
+	};
+
+	const handleDataGridSelectionPaper = (selectionModel: GridRowSelectionModel): void => {
+		const selected = data.filter((data) => selectionModel.includes(data.id)) as ScientificPaper[];
+		setSelectedPapers(selected);
 	};
 
 	const handleDelete = (id: number): void => {};
@@ -58,7 +65,7 @@ export function ProjectPageClientComponent({
 
 			<Stack spacing={2} alignItems="end">
 				<Stack direction="row" spacing={2}>
-					{getButtons(currentProjectId, [])[tabSearchValue]?.map((btn) => <>{btn}</>)}
+					{getButtons(currentProjectId, selectedPapers)[tabSearchValue]?.map((btn) => <>{btn}</>)}
 				</Stack>
 
 				<Paper sx={{ width: '100%', overflow: 'hidden' }}>
@@ -70,15 +77,8 @@ export function ProjectPageClientComponent({
 						onChange={handleSearchChange}
 						sx={{ m: 2, width: '25%' }}
 					/>
-					<TableContainer component={Paper}>
-						<Table sx={{ minWidth: 650 }} aria-label="projects table">
-							<TableHead sx={{ '& .MuiTableCell-head': { fontWeight: 'bold' } }}>
-								<TableHeadRow columns={columns} />
-							</TableHead>
 
-							<TableBodyRows data={data} onDelete={handleDelete} keysOrder={dataKeysOrder} />
-						</Table>
-					</TableContainer>
+					<DataGridDemo rows={data as ScientificPaper[]} handleSelection={handleDataGridSelectionPaper} />
 				</Paper>
 			</Stack>
 		</>

@@ -2,6 +2,7 @@ import prisma from '../../../lib/db';
 import { redirect } from 'next/navigation';
 import { ProjectPageClientComponent } from '../../../components/project-page';
 import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server';
+import { TabQueryValue } from '../../../components/project-page/types';
 
 interface ProjectParams {
 	params: {
@@ -14,7 +15,7 @@ const tableColumns: string[] = ['Paper Title', 'Author', 'Published Year', 'Jour
 const dataKeysOrder: string[] = ['title', 'author', 'publishedYear', 'journalTitle', 'status'];
 
 const getDataBasedOnFilter = async (filter: string, projectId: number) => {
-	if (filter === 'all') {
+	if (filter === TabQueryValue.All) {
 		return prisma.scientificPaper.findMany({
 			where: {
 				projectId: projectId,
